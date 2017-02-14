@@ -83,9 +83,7 @@ m =    'FROM SPY<!--TABLE:agents NUMBER OF COLUMNS:5--> SPY;66'
 print len(m)
 k = applykey(p, m)
 
-word = 'FROM SPY<!--                                --> SPY;66'
-word = 'FROM agents <!--TABLE:a                     --> SPY;66'# gentsMBE' #R OF COLUMNS:5--> SPY;66'
-word = 'FROM SPY<!--TABLE:agents NUMBER OF COLUMNS:1--> aPY;01'
+word = 'FROM SPY<!--TABLE:agents NUMBER OF COLUMNS:5--> SPY;(select 1)'
 aa = applykey(word, k)
 print len(aa+p[54:])
 
@@ -118,35 +116,5 @@ print iv.encode('hex')
 print applykey(iv, p[n:n+8])
 
 quit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
