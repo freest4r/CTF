@@ -1,7 +1,7 @@
 from pwn import *
 
-# p = process('./smashme')
-p = remote('54.255.243.135', 57348)
+p = process('./smashme')
+#p = remote('54.255.243.135', 57348)
 
 print p.recvuntil('smash?')
 
