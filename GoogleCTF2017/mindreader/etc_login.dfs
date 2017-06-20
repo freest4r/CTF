@@ -1,0 +1,120 @@
+#
+# /etc/login.defs - Configuration control definitions for the login package.
+#
+# Three items must be defined:  MAIL_DIR, ENV_SUPATH, and ENV_PATH.
+# If unspecified, some arbitrary (and possibly incorrect) value will
+# be assumed.  All other items are optional - if not specified then
+# the described action or option will be inhibited.
+#
+# Comment lines (lines beginning with "#") and blank lines are ignored.
+#
+# Modified for Linux.  --marekm
+
+# REQUIRED for useradd/userdel/usermod
+#   Directory where mailboxes reside, _or_ name of file, relative to the
+#   home directory.  If you _do_ define MAIL_DIR and MAIL_FILE,
+#   MAIL_DIR takes precedence.
+#
+#   Essentially:
+#      - MAIL_DIR defines the location of users mail spool files
+#        (for mbox use) by appending the username to MAIL_DIR as defined
+#        below.
+#      - MAIL_FILE defines the location of the users mail spool files as the
+#        fully-qualified filename obtained by prepending the user home
+#        directory before $MAIL_FILE
+#
+# NOTE: This is no more used for setting up users MAIL environment variable
+#       which is, starting from shadow 4.0.12-1 in Debian, entirely the
+#       job of the pam_mail PAM modules
+#       See default PAM configuration files provided for
+#       login, su, etc.
+#
+# This is a temporary situation: setting these variables will soon
+# move to /etc/default/useradd and the variables will then be
+# no more supported
+MAIL_DIR        /var/mail
+#MAIL_FILE      .mail
+
+#
+# Enable logging and display of /var/log/faillog login failure info.
+# This option conflicts with the pam_tally PAM module.
+#
+FAILLOG_ENAB		yes
+
+#
+# Enable display of unknown usernames when login failures are recorded.
+#
+# WARNING: Unknown usernames may become world readable. 
+# See #290803 and #298773 for details about how this could become a security
+# concern
+LOG_UNKFAIL_ENAB	no
+
+#
+# Enable logging of successful logins
+#
+LOG_OK_LOGINS		no
+
+#
+# Enable "syslog" logging of su activity - in addition to sulog file logging.
+# SYSLOG_SG_ENAB does the same for newgrp and sg.
+#
+SYSLOG_SU_ENAB		yes
+SYSLOG_SG_ENAB		yes
+
+#
+# If defined, all su activity is logged to this file.
+#
+#SULOG_FILE	/var/log/sulog
+
+#
+# If defined, file which maps tty line to TERM environment parameter.
+# Each line of the file is in a format something like "vt100  tty01".
+#
+#TTYTYPE_FILE	/etc/ttytype
+
+#
+# If defined, login failures will be logged here in a utmp format
+# last, when invoked as lastb, will read /var/log/btmp, so...
+#
+FTMP_FILE	/var/log/btmp
+
+#
+# If defined, the command name to display when running "su -".  For
+# example, if this is defined as "su" then a "ps" will display the
+# command is "-su".  If not defined, then "ps" would display the
+# name of the shell actually being run, e.g. something like "-sh".
+#
+SU_NAME		su
+
+#
+# If defined, file which inhibits all the usual chatter during the login
+# sequence.  If a full pathname, then hushed mode will be enabled if the
+# user's name or shell are found in the file.  If not a full pathname, then
+# hushed mode will be enabled if the file exists in the user's home directory.
+#
+HUSHLOGIN_FILE	.hushlogin
+#HUSHLOGIN_FILE	/etc/hushlogins
+
+#
+# *REQUIRED*  The default PATH settings, for superuser and normal users.
+#
+# (they are minimal, add the rest in the shell startup files)
+ENV_SUPATH	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV_PATH	PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+#
+# Terminal permissions
+#
+#	TTYGROUP	Login tty will be assigned this group ownership.
+#	TTYPERM		Login tty will be set to this permission.
+#
+# If you have a "write" program which is "setgid" to a special group
+# which owns the terminals, define TTYGROUP to the group number and
+# TTYPERM to 0620.  Otherwise leave TTYGROUP commented out and assign
+# TTYPERM to either 622 or 600.
+#
+# In Debian /usr/bin/bsd-write or similar programs are setgid tty
+# However, the default and recommended value for TTYPERM is still 0600
+# to not allow anyone to write to anyone else console or terminal
+
+# Users can still allow other people to write them by
